@@ -1,40 +1,50 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(){
-    int n, m;
-    int count=0;
-    int is_X=0;
+    int arr_p[1000001]={0};
+    int arr_m[1000001]={0};
+    int num, n;
+    int m_max=0, p_max=0;
+    int min=1000000;
+    int minus=0;
 
-    char ch[51][51];
+    scanf("%d", &num);
+    
+    for (int i = 0; i < num; i++) {
+        scanf("%d", &n);
+        if(n<0){
+            minus=1;
+            arr_m[abs(n)]=1;
 
-    scanf("%d %d", &n, &m);
+            if(m_max<abs(n))
+                m_max=abs(n);      
+        }
+        
+        else{
+            arr_p[n]=1;
+            if(p_max<n)
+                p_max=n;  
+        }
 
-    for(int i=0; i<n; i++){
-        scanf("%s", &ch[i]);
+        if(min>abs(n)){
+            min=abs(n);
+        }
+
     }
 
-    for(int i=0; i<n; i++){
-        is_X=0;
-        for(int j=0; j<m; j++){
-            if(ch[i][j]=='X'){
-                is_X=1; //가로만 경비원
-                if(is_X==2){
-                    is_X=3; //가로, 세로 모두
-                }
-            }
-            if(ch[j][i]=='X'){
-                is_X=2; //세로만 경비원
-                if(is_X==1){
-                    is_X=3; //가로, 세로 모두
-                }
+    if(minus==1){
+        for(int j=m_max; j>min; j--){
+            if(arr_m[j]==1){
+                printf("-%d\n", j);
             }
         }
-        //if(is_X==1 || is_X==2){
-        //        count++;
-        //}
-        if(is_X==0){count++;}
     }
 
-    printf("%d", count);
+    for (int i = min; i <= p_max; i++) {
+        if(arr_p[i]==1){
+            printf("%d\n", i);
+        }
+    }
     return 0;
 }
